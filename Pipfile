@@ -6,6 +6,10 @@ name = "pypi"
 [packages]
 fastapi = "*"
 uvicorn = "*"
+sqlalchemy = "*"
+pydantic = "*"
+email-validator = "*"
+passlib = "*"
 
 [dev-packages]
 

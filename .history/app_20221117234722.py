@@ -17,7 +17,7 @@ app.include_router(user.router)
 app.include_router(info.router)
 
 if __name__ == "__main__":
-    uvicorn.run("app:app", port= 5000, reload=True)
+    uvicorn.run("app:app", port= 5100, reload=True)
 
 
 origins = [
