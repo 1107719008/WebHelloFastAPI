@@ -10,6 +10,7 @@ sqlalchemy = "*"
 pydantic = "*"
 email-validator = "*"
 passlib = "*"
+bcrypt = "*"
 
 [dev-packages]
 
