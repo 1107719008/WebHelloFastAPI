@@ -23,6 +23,7 @@ if __name__ == "__main__":
 
 origins = [
     'http://localhost:3000',
+    'web-production-e392.up.railway.app',
     "*"
 ]
 
