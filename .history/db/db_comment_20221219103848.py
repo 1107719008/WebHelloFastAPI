@@ -3,7 +3,7 @@ from router.schemas import CommentRequestSchema
 from sqlalchemy.orm.session import Session
 from db.models import DbComment
 
-def create(db: Session, request: CommentRequestSchema)-> DbComment :
+def create(db: Session, request: CommentRequestSchema) :
     new_comment = DbComment(
         user_id=request.user_id,
         user_name=request.user_name,
