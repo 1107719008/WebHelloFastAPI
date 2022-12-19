@@ -3,9 +3,25 @@ from router.schemas import InfoRequestSchema,UpdateInfoRequestSchema,UpdateInfoR
 from sqlalchemy import func
 from sqlalchemy.orm.session import Session
 #from .products_feed import products
+
+from .infos_feed import infos
 from db.models import DbHomework
 
-
+def db_feed(db: Session):
+    new_info_list = [DbHomework(
+        title=infos["title"],
+        username=infos["author"],
+        content=infos["content"],
+        contentlong=infos["description"],
+        like_count=infos["like_point"],
+        comment_count=infos["comment_point"],
+        owner_id=infos["owner_id"]
+    ) for info in infos]
+    db.query(DbHomework).delete()
+    db.commit()
+    db.add_all(new_info_list)
+    db.commit()
+    return db.query(DbHomework).all()
 
 def create(db: Session, request: InfoRequestSchema) -> DbHomework:
     info_product = DbHomework(
@@ -13,7 +29,9 @@ def create(db: Session, request: InfoRequestSchema) -> DbHomework:
         username = request.username,
         content = request.content,
         contentlong = request.contentlong,
-        password = request.password,
+        like_count = request.like_count,
+        comment_count = request.comment_count,
+        owner_id=request.owner_id
        
     )
     db.add(info_product)
@@ -22,7 +40,7 @@ def create(db: Session, request: InfoRequestSchema) -> DbHomework:
     return info_product
 
 
-def get_all(db: Session) -> list[DbHomework]:
+def get_all_info(db: Session) -> list[DbHomework]:
     return db.query(DbHomework).all()
 
 
@@ -33,7 +51,17 @@ def get_info_by_id(info_id: int, db: Session) -> DbHomework:
                             detail=f'Info with id = {info_id} not found')
     return info
 
-def update_info_by_id(id: int,request:UpdateInfoRequestSchema, db: Session):
+def get_post_by_author(
+        username: str,
+        db: Session) -> list[DbHomework]:
+    product = db.query(DbHomework).filter(DbHomework.username == username).all()
+    if not product:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f'Post with author = {id} not found')
+    return product
+
+
+def update_info_by_id(id: int,request:UpdateInfoRequestSchema, db: Session)-> DbHomework:
     updated_info = db.query(DbHomework).filter(DbHomework.id == id)
     updated_info.update({
         DbHomework.title:request.title,

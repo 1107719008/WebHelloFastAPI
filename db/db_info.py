@@ -3,9 +3,9 @@ from router.schemas import InfoRequestSchema,UpdateInfoRequestSchema,UpdateInfoR
 from sqlalchemy import func
 from sqlalchemy.orm.session import Session
 #from .products_feed import products
-
 from .infos_feed import infos
 from db.models import DbHomework
+from typing import List
 
 def db_feed(db: Session):
     new_info_list = [DbHomework(
@@ -40,7 +40,7 @@ def create(db: Session, request: InfoRequestSchema) -> DbHomework:
     return info_product
 
 
-def get_all_info(db: Session) -> list[DbHomework]:
+def get_all_info(db: Session) -> List[DbHomework]:
     return db.query(DbHomework).all()
 
 

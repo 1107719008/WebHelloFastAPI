@@ -5,7 +5,7 @@ from sqlalchemy import func, exc
 from sqlalchemy.exc import IntegrityError
 from db.models import DbUser
 from utils.hash import bcrypt
-from typing import List
+
 
 def create(db: Session, request: UserRequestSchema) -> DbUser:
     new_user = DbUser(
@@ -24,7 +24,7 @@ def create(db: Session, request: UserRequestSchema) -> DbUser:
         raise HTTPException(status_code=400, detail=f"{exc}".split('\n')[0])
 
 
-def get_all(db: Session) -> List[DbUser]:
+def get_all(db: Session) -> list[DbUser]:
     users = db.query(DbUser).all()
     if not users:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,

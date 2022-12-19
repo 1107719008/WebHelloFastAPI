@@ -46,7 +46,7 @@ def create(db: Session, request: ProductRequestSchema) -> DbProduct:
     return new_product
 
 
-def get_all(db: Session) -> list[DbProduct]:
+def get_all(db: Session) -> List[DbProduct]:
     return db.query(DbProduct).all()
 
 
@@ -58,16 +58,9 @@ def get_product_by_id(product_id: int, db: Session) -> DbProduct:
     return product
 
 
-def get_product_by_category(category: str, db: Session) -> list[DbProduct]:
+def get_product_by_category(category: str, db: Session) -> List[DbProduct]:
     product = db.query(DbProduct).filter(func.upper(DbProduct.category) == category.upper()).all()
     if not product:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f'Product with category = {category} not found')
-    return product
-
-def get_product_by_homework(hw: int, db: Session) -> list[DbProduct]:
-    product = db.query(DbProduct).filter(func.upper(DbProduct.category) == hw.upper()).all()
-    if not product:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f'Product with hw = {hw} not found')
     return product

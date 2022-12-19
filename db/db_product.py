@@ -5,7 +5,7 @@ from sqlalchemy.orm.session import Session
 from .products_feed import products
 
 from db.models import DbProduct
-
+from typing import List
 
 def db_feed(db: Session):
     new_product_list = [DbProduct(
@@ -46,7 +46,7 @@ def create(db: Session, request: ProductRequestSchema) -> DbProduct:
     return new_product
 
 
-def get_all(db: Session) -> list[DbProduct]:
+def get_all(db: Session) -> List[DbProduct]:
     return db.query(DbProduct).all()
 
 
@@ -58,7 +58,7 @@ def get_product_by_id(product_id: int, db: Session) -> DbProduct:
     return product
 
 
-def get_product_by_category(category: str, db: Session) -> list[DbProduct]:
+def get_product_by_category(category: str, db: Session) -> List[DbProduct]:
     product = db.query(DbProduct).filter(func.upper(DbProduct.category) == category.upper()).all()
     if not product:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
